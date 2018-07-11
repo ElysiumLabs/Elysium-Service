@@ -7,6 +7,7 @@ namespace Elysium.Service
 {
     public abstract class Service : IService, IServiceStartup
     {
+        //
         public string Name { get; set; }
 
         public string Application { get; set; }
