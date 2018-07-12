@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Elysium Labs, Breno S., VexPro</Authors>
+    <Description>A better way to build scalable services that can be micro or not.</Description>
+    <PackageProjectUrl>https://github.com/ElysiumLabs/Elysium-Service</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/ElysiumLabs/Elysium-Service/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/ElysiumLabs/Elysium-Service/master/Assets/Images/elysiumlogo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/ElysiumLabs/Elysium-Service</RepositoryUrl>
+    <PackageTags>elysium apsnetcore microservices services</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
