@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
@@ -13,6 +14,17 @@ namespace Elysium.Service
         public string Application { get; set; }
 
         public string Version { get; set; }
+
+        public IConfiguration Configuration { get; set; }
+
+        public Service(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public Service()
+        {
+        }
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
