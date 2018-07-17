@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,8 +18,19 @@ namespace Elysium.Service
 
         public IConfiguration Configuration { get; set; }
 
-        public Service(IConfiguration configuration)
+        public IHostingEnvironment Environment { get; }
+
+        public Service(IHostingEnvironment environment) : this(environment, null)
         {
+        }
+
+        public Service(IConfiguration configuration) : this(null, configuration)
+        {
+        }
+
+        public Service(IHostingEnvironment environment, IConfiguration configuration) : this()
+        {
+            Environment = environment;
             Configuration = configuration;
         }
 
