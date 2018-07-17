@@ -1,6 +1,6 @@
 # Elysium Service
 
-A better way to build scalable services that can be micro or not.
+A better way to build ASP.NET Core services that can be micro or not.
 
 ![Visual Studio Team services](https://img.shields.io/vso/build/elysiumlabs/28c50ec9-7531-40fd-8704-f2c618688944/1.svg?style=for-the-badge)
 ![NuGet](https://img.shields.io/nuget/dt/Elysium.Service.svg?style=for-the-badge)
