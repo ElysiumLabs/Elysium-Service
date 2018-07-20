@@ -18,7 +18,7 @@ namespace Elysium.Service
 
         public IConfiguration Configuration { get; set; }
 
-        public IHostingEnvironment Environment { get; }
+        public IHostingEnvironment Environment { get; set; }
 
         public Service(IHostingEnvironment environment) : this(environment, null)
         {
