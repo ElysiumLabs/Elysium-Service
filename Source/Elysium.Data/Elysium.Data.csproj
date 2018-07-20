@@ -3,21 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Elysium Labs, Breno S., VexPro</Authors>
-    <Description>A better way to build scalable services that can be micro or not.</Description>
-    <PackageProjectUrl>https://github.com/ElysiumLabs/Elysium-Service</PackageProjectUrl>
+    <Product>Elysium.Data</Product>
+    <Description>A better way to build.</Description>
     <PackageLicenseUrl>https://github.com/ElysiumLabs/Elysium-Service/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ElysiumLabs/Elysium-Service</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/ElysiumLabs/Elysium-Service/master/Assets/Images/elysiumlogo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/ElysiumLabs/Elysium-Service</RepositoryUrl>
-    <PackageTags>elysium apsnetcore microservices services</PackageTags>
+    <PackageTags>elysium data core framework standart apsnetcore microservices services</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
-    <PackageReference Include="WebApiContrib.Core" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Home\Views\" />
-  </ItemGroup>
 
 </Project>
