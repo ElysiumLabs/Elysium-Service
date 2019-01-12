@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Elysium.Service.Playground
+namespace Host.Playground
 {
     public class Program
     {
@@ -12,7 +12,7 @@ namespace Elysium.Service.Playground
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<PlaygroundService>()
+                .UseStartup<HostService>()
                 .Build();
     }
 }

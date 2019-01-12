@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Elysium.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
-namespace Elysium.Service
+namespace Elysium
 {
-    public abstract class Service : IService, IServiceStartup
+    public abstract class Service 
     {
+
         //
         public string Name { get; set; }
 
@@ -16,9 +19,12 @@ namespace Elysium.Service
 
         public string Version { get; set; }
 
+
         public IConfiguration Configuration { get; set; }
 
         public IHostingEnvironment Environment { get; set; }
+
+
 
         public Service(IHostingEnvironment environment) : this(environment, null)
         {
@@ -37,22 +43,28 @@ namespace Elysium.Service
         public Service()
         {
         }
-
+        
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            ConfigureMvc(services.AddMvc());
+        }
+
+        public virtual IMvcBuilder ConfigureMvc(IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder
                 .AddApplicationPart(Assembly.GetAssembly(this.GetType()))
                 .AddControllersAsServices()
-                ;
+                .ConfigureApplicationPartManager(manager =>
+                {
+                    manager.FeatureProviders.Clear();
+                    manager.FeatureProviders.Add(new UnderServiceNamespaceControllerFeatureProvider(this));
+                });
+            return mvcBuilder;
         }
 
         public virtual void Configure(IApplicationBuilder app)
         {
             app.UseMvcWithDefaultRoute();
-        }
-
-        public virtual void Initialize()
-        {
         }
 
         internal ElysiumServiceOptions GetDefaultServiceOptions()
@@ -70,7 +82,7 @@ namespace Elysium.Service
         {
         }
 
-        public string CustomBranch { get; set; }
+        public string Branch { get; set; }
 
         public Action<IServiceCollection> AdditionalServicesConfiguration { get; set; }
 
@@ -78,9 +90,12 @@ namespace Elysium.Service
 
         public void Validate()
         {
-            if (!string.IsNullOrEmpty(CustomBranch))
+            if (string.IsNullOrEmpty(Branch))
             {
+                throw new ArgumentNullException("Branch is empty");
             }
+
+
         }
     }
 }
