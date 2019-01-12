@@ -9,7 +9,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/ElysiumLabs/Elysium-Service/master/Assets/Images/elysiumlogo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/ElysiumLabs/Elysium-Service</RepositoryUrl>
     <PackageTags>elysium apsnetcore microservices services</PackageTags>
-    <AssemblyName>Elysium</AssemblyName>
+    <AssemblyName>Elysium.Service</AssemblyName>
     <RootNamespace>Elysium</RootNamespace>
   </PropertyGroup>
 
