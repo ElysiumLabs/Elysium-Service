@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Elysium.Service\Elysium.Service.csproj" />
+    <ProjectReference Include="..\TestService2\TestService2.csproj" />
+  </ItemGroup>
+
+</Project>
