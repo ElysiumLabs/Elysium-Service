@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,15 @@ namespace TestService2
 {
     public class Test2Service : Elysium.Service
     {
+        
+
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
             services.AddMediatR();
+        }
+
+        public override void Configure(IApplicationBuilder app)
+        {
         }
     }
 }

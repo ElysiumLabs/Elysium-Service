@@ -44,10 +44,13 @@ namespace Elysium
         {
         }
         
-        public virtual void ConfigureServices(IServiceCollection services)
+        internal void ConfigureServicesInternal(IServiceCollection services)
         {
             ConfigureMvc(services.AddMvc());
+            ConfigureServices(services);
         }
+
+        public abstract void ConfigureServices(IServiceCollection services);
 
         public virtual IMvcBuilder ConfigureMvc(IMvcBuilder mvcBuilder)
         {
@@ -62,10 +65,14 @@ namespace Elysium
             return mvcBuilder;
         }
 
-        public virtual void Configure(IApplicationBuilder app)
+        internal void ConfigureInternal(IApplicationBuilder app)
         {
             app.UseMvcWithDefaultRoute();
+            Configure(app);
         }
+
+        public abstract void Configure(IApplicationBuilder app);
+
 
         internal ElysiumServiceOptions GetDefaultServiceOptions()
         {

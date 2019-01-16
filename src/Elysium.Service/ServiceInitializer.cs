@@ -20,12 +20,12 @@ namespace Elysium
             var serviceapp = rootApp.UseBranchWithServices(branch,
                services =>
                {
-                   service.ConfigureServices(services);
+                   service.ConfigureServicesInternal(services);
                    hostServicesConfiguration?.Invoke(services);
                },
                appBuilder =>
                {
-                   service.Configure(appBuilder);
+                   service.ConfigureInternal(appBuilder);
                    hostAppBuilderConfiguration?.Invoke(appBuilder);
                });
 
