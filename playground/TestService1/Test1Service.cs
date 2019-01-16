@@ -13,8 +13,6 @@ namespace TestService1
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
-
             services.AddMediatR();
 
             services.AddSwaggerGen(c =>
@@ -25,8 +23,6 @@ namespace TestService1
 
         public override void Configure(IApplicationBuilder app)
         {
-            base.Configure(app);
-
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

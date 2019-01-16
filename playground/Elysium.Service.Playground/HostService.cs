@@ -24,7 +24,6 @@ namespace Host.Playground
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
 
             services
                 .AddElysiumService<Test1Service>()
@@ -40,7 +39,6 @@ namespace Host.Playground
 
         public override void Configure(IApplicationBuilder app)
         {
-            base.Configure(app);
 
             app
                 .UseElysiumService<Test1Service>("Test1Service")

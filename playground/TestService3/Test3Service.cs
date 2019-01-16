@@ -12,17 +12,11 @@ namespace TestService3
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
-
             services.AddElysiumService<Test2Service>();
-
-
         }
 
         public override void Configure(IApplicationBuilder app)
         {
-            base.Configure(app);
-
             app.UseElysiumService<Test2Service>("test2");
 
         }
