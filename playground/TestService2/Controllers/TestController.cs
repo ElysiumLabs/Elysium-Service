@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestService2.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
         [HttpGet("get")]

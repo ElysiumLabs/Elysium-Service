@@ -1,10 +1,13 @@
-﻿using Elysium.Infrastructure;
+﻿using Elysium.Extensions;
+using Elysium.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Elysium
@@ -42,32 +45,43 @@ namespace Elysium
 
         public Service()
         {
+            InitializeDefaultServiceInfo();
         }
-        
+
+        private void InitializeDefaultServiceInfo()
+        {
+            var type = this.GetType();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
+
+            Name = type.Name;
+            Version = fvi.FileVersion;
+        }
+
         internal void ConfigureServicesInternal(IServiceCollection services)
         {
-            ConfigureMvc(services.AddMvc());
             ConfigureServices(services);
+
+            ConfigureServiceParts(services);
+        }
+
+        private void ConfigureServiceParts(IServiceCollection services)
+        {
+            var partsManager = ServiceCollectionExtensions.GetApplicationPartManager(services);
+
+            var appFac = ApplicationPartFactory.GetApplicationPartFactory(this.GetType().Assembly);
+            var parts = appFac.GetApplicationParts(this.GetType().Assembly);
+
+            foreach (var part in parts)
+            {
+                partsManager.ApplicationParts.Add(part);
+            }
+            
         }
 
         public abstract void ConfigureServices(IServiceCollection services);
 
-        public virtual IMvcBuilder ConfigureMvc(IMvcBuilder mvcBuilder)
-        {
-            mvcBuilder
-                .AddApplicationPart(Assembly.GetAssembly(this.GetType()))
-                .AddControllersAsServices()
-                .ConfigureApplicationPartManager(manager =>
-                {
-                    manager.FeatureProviders.Clear();
-                    manager.FeatureProviders.Add(new UnderServiceNamespaceControllerFeatureProvider(this));
-                });
-            return mvcBuilder;
-        }
-
         internal void ConfigureInternal(IApplicationBuilder app)
         {
-            app.UseMvcWithDefaultRoute();
             Configure(app);
         }
 
@@ -78,6 +92,7 @@ namespace Elysium
         {
             var opt = new ElysiumServiceOptions()
             {
+                Branch = this.GetType().Name
             };
             return opt;
         }
