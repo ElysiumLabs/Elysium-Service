@@ -25,6 +25,8 @@ namespace Host.Playground
         public override void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddMvc();
+
             services
                 .AddElysiumService<Test1Service>()
                 .AddElysiumService<Test2Service>()
@@ -41,13 +43,11 @@ namespace Host.Playground
         {
 
             app
-                .UseElysiumService<Test1Service>("Test1Service")
-                .UseElysiumService<Test2Service>("Test2Service")
-                .UseElysiumService<Test1Service>("OtherTest1Service")
-                .UseElysiumService<Test3Service>("Test3Service")
+                .UseElysiumService<Test1Service>("Test1")
+                .UseElysiumService<Test2Service>("Test2")
+                .UseElysiumService<Test1Service>("OtherTest1")
+                .UseElysiumService<Test3Service>("Test3")
                 ;
-
-            //app.UseWelcomePage();
 
             app.UseSwagger();
 
@@ -56,7 +56,12 @@ namespace Host.Playground
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Host API V1");
                 //c.SwaggerEndpoint("/Test1Service/swagger/v1/swagger.json", "Host API V1"); You can see other swaggers in host swagger
             });
+
+            app.UseMvcWithDefaultRoute();
+
         }
+
+        
     }
 
    
