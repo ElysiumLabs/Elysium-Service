@@ -29,8 +29,7 @@ namespace Host.Playground
 
             services
                 .AddElysiumService<Test1Service>()
-                .AddElysiumService<Test2Service>()
-                .AddElysiumService<Test3Service>() //this has TestService2 inside
+                //.AddElysiumService<Test2Service>()
                 ;
 
             services.AddSwaggerGen(c =>
@@ -44,9 +43,7 @@ namespace Host.Playground
 
             app
                 .UseElysiumService<Test1Service>("Test1")
-                .UseElysiumService<Test2Service>("Test2")
-                .UseElysiumService<Test1Service>("OtherTest1")
-                .UseElysiumService<Test3Service>("Test3")
+                //.UseElysiumService<Test2Service>("Test2")
                 ;
 
             app.UseSwagger();

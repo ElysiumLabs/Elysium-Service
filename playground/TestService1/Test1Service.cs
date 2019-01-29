@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using TestService2;
 
 namespace TestService1
 {
@@ -17,7 +18,9 @@ namespace TestService1
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-          
+
+            services.AddElysiumService<Test2Service>();
+
             services.AddIdentityServer()
                 .AddInMemoryApiResources(Bla2())
                 .AddInMemoryClients(Bla())
@@ -43,6 +46,10 @@ namespace TestService1
 
         public override void Configure(IApplicationBuilder app)
         {
+
+            app.UseElysiumService<Test2Service>("test2");
+
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

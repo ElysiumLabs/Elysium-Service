@@ -8,9 +8,16 @@ using System.Text;
 
 namespace Elysium.Extensions
 {
-    internal class ServiceCollectionExtensions
+    internal static class ServiceCollectionExtensions
     {
-        internal static ApplicationPartManager GetApplicationPartManager(IServiceCollection services)
+        public static T GetServiceFromCollection<T>(this IServiceCollection services)
+        {
+            return (T)services
+                .LastOrDefault(d => d.ServiceType == typeof(T))
+                ?.ImplementationInstance;
+        }
+
+        internal static ApplicationPartManager GetApplicationPartManager(this IServiceCollection services)
         {
             var manager = GetServiceFromCollection<ApplicationPartManager>(services);
             if (manager == null)
@@ -30,13 +37,21 @@ namespace Elysium.Extensions
             return manager;
         }
 
-
-
-        internal static T GetServiceFromCollection<T>(IServiceCollection services)
+        internal static void TryRemoveServiceAppPartsInHost<T>(this IServiceCollection services)
         {
-            return (T)services
-                .LastOrDefault(d => d.ServiceType == typeof(T))
-                ?.ImplementationInstance;
+            var partsManager = GetApplicationPartManager(services);
+
+            var serviceLib = partsManager.ApplicationParts
+                .FirstOrDefault(part => part.Name == typeof(T).Assembly.GetName().Name);
+
+            if (serviceLib != null)
+            {
+                partsManager.ApplicationParts.Remove(serviceLib);
+            }
         }
+
+
+
+       
     }
 }

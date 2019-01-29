@@ -13,11 +13,14 @@ namespace TestService2
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddMediatR();
         }
 
         public override void Configure(IApplicationBuilder app)
         {
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

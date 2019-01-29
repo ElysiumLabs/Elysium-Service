@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Elysium.Service\Elysium.Service.csproj" />
+    <ProjectReference Include="..\TestService2\TestService2.csproj" />
   </ItemGroup>
 
 </Project>
