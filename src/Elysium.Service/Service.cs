@@ -15,6 +15,11 @@ namespace Elysium
     public abstract class Service 
     {
 
+        public abstract void ConfigureServices(IServiceCollection services);
+
+        public abstract void Configure(IApplicationBuilder app);
+
+
         //
         public string Name { get; set; }
 
@@ -66,7 +71,7 @@ namespace Elysium
 
         private void ConfigureServiceParts(IServiceCollection services)
         {
-            var partsManager = ServiceCollectionExtensions.GetApplicationPartManager(services);
+            var partsManager = services.GetApplicationPartManager();
 
             var appFac = ApplicationPartFactory.GetApplicationPartFactory(this.GetType().Assembly);
             var parts = appFac.GetApplicationParts(this.GetType().Assembly);
@@ -78,29 +83,32 @@ namespace Elysium
             
         }
 
-        public abstract void ConfigureServices(IServiceCollection services);
-
         internal void ConfigureInternal(IApplicationBuilder app)
         {
             Configure(app);
         }
 
-        public abstract void Configure(IApplicationBuilder app);
+        //
+        //
+        //
 
 
-        internal ElysiumServiceOptions GetDefaultServiceOptions()
+
+
+        
+    }
+
+    public class ServiceOptions
+    {
+        internal static ServiceOptions GetDefaultServiceOptions()
         {
-            var opt = new ElysiumServiceOptions()
+            var opt = new ServiceOptions()
             {
-                Branch = this.GetType().Name
             };
             return opt;
         }
-    }
 
-    public class ElysiumServiceOptions
-    {
-        public ElysiumServiceOptions()
+        public ServiceOptions()
         {
         }
 
