@@ -8,7 +8,7 @@ using System.Text;
 namespace TestService2.Controllers
 {
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class Test2Controller : ControllerBase
     {
         [HttpGet("get")]
         public object Get([FromServices]IConfiguration configuration)

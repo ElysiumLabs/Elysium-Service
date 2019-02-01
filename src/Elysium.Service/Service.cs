@@ -73,14 +73,41 @@ namespace Elysium
         {
             var partsManager = services.GetApplicationPartManager();
 
-            var appFac = ApplicationPartFactory.GetApplicationPartFactory(this.GetType().Assembly);
-            var parts = appFac.GetApplicationParts(this.GetType().Assembly);
+            AddAppPartsUntilElysiumService(services, partsManager);
 
-            foreach (var part in parts)
-            {
-                partsManager.ApplicationParts.Add(part);
-            }
+           
             
+        }
+
+        private void AddAppPartsUntilElysiumService(IServiceCollection services, ApplicationPartManager partsManager)
+        {
+
+            var needAddAppPart = true;
+
+            var type = this.GetType();
+
+            if (!typeof(Service).IsAssignableFrom(type))
+            {
+                return;
+            }
+
+            do
+            {
+                
+                var appFac = ApplicationPartFactory.GetApplicationPartFactory(type.Assembly);
+                var parts = appFac.GetApplicationParts(type.Assembly);
+
+                foreach (var part in parts)
+                {
+                    partsManager.ApplicationParts.Add(part);
+                }
+
+                type = type.BaseType;
+
+                needAddAppPart = type != typeof(Service);
+
+            }
+            while (needAddAppPart);
         }
 
         internal void ConfigureInternal(IApplicationBuilder app)
