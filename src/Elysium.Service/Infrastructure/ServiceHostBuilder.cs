@@ -17,6 +17,7 @@ namespace Elysium.Infrastructure
     public class ServiceHostBuilder
     {
         public static IApplicationBuilder BuildServiceInBranch(
+            Service service, 
             IApplicationBuilder app,
             PathString path,
             Action<IServiceCollection> servicesConfiguration,
@@ -66,6 +67,8 @@ namespace Elysium.Infrastructure
 
             return app.Map(path, builder =>
             {
+                builder.UseMiddleware<ServiceMiddleware>(service);
+
                 builder.Use(async (context, next) =>
                 {
                     await branchDelegate(context);
