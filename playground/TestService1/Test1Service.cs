@@ -19,7 +19,7 @@ namespace TestService1
         {
             services.AddMvc();
 
-            //services.AddElysiumService<Test2Service>();
+            services.AddElysiumService<Test2Service>();
 
             services.AddIdentityServer()
                 .AddInMemoryApiResources(Bla2())
@@ -47,7 +47,7 @@ namespace TestService1
         public override void Configure(IApplicationBuilder app)
         {
 
-            //app.UseElysiumService<Test2Service>("test2");
+            app.UseElysiumService<Test2Service>("Test2");
 
 
             app.UseSwagger();

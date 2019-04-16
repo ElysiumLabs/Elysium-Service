@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace Elysium
 {
-    public abstract class Service 
+    public abstract class Service
     {
 
         public abstract void ConfigureServices(IServiceCollection services);
@@ -21,11 +21,16 @@ namespace Elysium
 
 
         //
+        [Obsolete("Use options instead", true)]
         public string Name { get; set; }
 
+        [Obsolete("Use options instead", true)]
         public string Application { get; set; }
 
+        [Obsolete("Use options instead", true)]
         public string Version { get; set; }
+
+        public ServiceOptions Options { get; set; }
 
 
         public IConfiguration Configuration { get; set; }
@@ -50,16 +55,7 @@ namespace Elysium
 
         public Service()
         {
-            InitializeDefaultServiceInfo();
-        }
-
-        private void InitializeDefaultServiceInfo()
-        {
-            var type = this.GetType();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
-
-            Name = type.Name;
-            Version = fvi.FileVersion;
+            Options = ServiceOptions.CreateDefault(this);
         }
 
         internal void ConfigureServicesInternal(IServiceCollection services)
@@ -75,8 +71,6 @@ namespace Elysium
 
             AddAppPartsUntilElysiumService(services, partsManager);
 
-           
-            
         }
 
         private void AddAppPartsUntilElysiumService(IServiceCollection services, ApplicationPartManager partsManager)
@@ -93,7 +87,7 @@ namespace Elysium
 
             do
             {
-                
+
                 var appFac = ApplicationPartFactory.GetApplicationPartFactory(type.Assembly);
                 var parts = appFac.GetApplicationParts(type.Assembly);
 
@@ -122,20 +116,20 @@ namespace Elysium
 
 
 
-        
+
     }
 
-    public class ServiceOptions
+    public class ServiceOptionsOld
     {
-        internal static ServiceOptions GetDefaultServiceOptions()
+        internal static ServiceOptionsOld GetDefaultServiceOptions()
         {
-            var opt = new ServiceOptions()
+            var opt = new ServiceOptionsOld()
             {
             };
             return opt;
         }
 
-        public ServiceOptions()
+        public ServiceOptionsOld()
         {
         }
 
@@ -155,4 +149,62 @@ namespace Elysium
 
         }
     }
+
+    public class ServiceOptions : Dictionary<object, object>
+    {
+
+
+        public string Name
+        {
+            get { return this[nameof(Name)] as string; }
+            set { this[nameof(Name)] = value; }
+        }
+
+        public string Application
+        {
+            get { return this[nameof(Application)] as string; }
+            set { this[nameof(Application)] = value; }
+        }
+
+        public string Branch
+        {
+            get { return this[nameof(Branch)] as string; }
+            set { this[nameof(Branch)] = value; }
+        }
+
+        public string Version
+        {
+            get { return this[nameof(Version)] as string; }
+            set { this[nameof(Version)] = value; }
+        }
+
+        public static ServiceOptions CreateDefault(Service service)
+        {
+            var type = service.GetType();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
+
+            var opts =  new ServiceOptions()
+            {
+                Name = type.Name,
+                Version = fvi.FileVersion
+            };
+
+            opts.Branch = opts.Name;
+
+            if (opts.Name.EndsWith("Service", StringComparison.InvariantCultureIgnoreCase))
+            {
+                opts.Branch = opts.Branch.Replace("Service", "");
+            }
+
+            return opts;
+
+        }
+
+        public void Validate()
+        {
+            
+        }
+    }
+
+
 }

@@ -22,23 +22,24 @@ namespace Elysium.Infrastructure
 
         internal static IApplicationBuilder ConfigureUseServiceFromHost(
            this IApplicationBuilder rootApp,
-           Service service,
-           string branch,
-           Action<IServiceCollection> hostServicesConfiguration = null,
-           Action<IApplicationBuilder> hostAppBuilderConfiguration = null)
+           Service service
+           //Action<IServiceCollection> hostServicesConfiguration = null,
+           //Action<IApplicationBuilder> hostAppBuilderConfiguration = null
+           )
         {
             var serviceapp = ServiceHostBuilder.BuildServiceInBranch(
+                service,
                 rootApp,
-                StringExtensions.SlashBranchName(branch),
+                StringExtensions.SlashBranchName(service.Options.Branch),
                 services =>
                 {
                     service.ConfigureServicesInternal(services);
-                    hostServicesConfiguration?.Invoke(services);
+                    //hostServicesConfiguration?.Invoke(services);
                 },
                 appBuilder =>
                 {
                     service.ConfigureInternal(appBuilder);
-                    hostAppBuilderConfiguration?.Invoke(appBuilder);
+                    //hostAppBuilderConfiguration?.Invoke(appBuilder);
                 });
 
             return serviceapp;

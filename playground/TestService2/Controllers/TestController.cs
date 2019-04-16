@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using Elysium.Infrastructure;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TestService2.Controllers
@@ -13,7 +15,7 @@ namespace TestService2.Controllers
         [HttpGet("get")]
         public object Get([FromServices]IConfiguration configuration)
         {
-
+            return HttpContext.GetServiceChain().Select(x => x.Options.Name);
             return configuration.AsEnumerable();
         }
 
