@@ -1,5 +1,6 @@
 ﻿using Elysium.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -25,6 +26,9 @@ namespace Elysium
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<TService>();
+                var startupService = scope.ServiceProvider.GetRequiredService<IStartup>() as Service;
+
+                startupService._children.Add(service);
 
                 configureOptions?.Invoke(service.Options);
 
