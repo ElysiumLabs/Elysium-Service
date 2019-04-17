@@ -30,6 +30,7 @@ namespace Elysium
             protected set { _children = value.ToList(); }
         }
 
+        public IServiceProvider ServiceProvider { get; internal protected set; }
 
 
         //
@@ -125,7 +126,9 @@ namespace Elysium
         {
             ConfigureServices(services);
 
-            return services.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider();
+
+            return ServiceProvider;
         }
 
         //
