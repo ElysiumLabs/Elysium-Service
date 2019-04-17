@@ -30,8 +30,6 @@ namespace Elysium
             protected set { _children = value.ToList(); }
         }
 
-        public IServiceProvider ServiceProvider { get; internal protected set; }
-
 
         //
         [Obsolete("Use options instead", true)]
@@ -126,9 +124,7 @@ namespace Elysium
         {
             ConfigureServices(services);
 
-            ServiceProvider = services.BuildServiceProvider();
-
-            return ServiceProvider;
+            return services.BuildServiceProvider();
         }
 
         //
