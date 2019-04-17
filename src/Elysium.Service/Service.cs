@@ -8,16 +8,28 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace Elysium
 {
-    public abstract class Service
+    public abstract class Service : IStartup
     {
 
         public abstract void ConfigureServices(IServiceCollection services);
 
         public abstract void Configure(IApplicationBuilder app);
+
+
+
+        internal List<Service> _children = new List<Service>();
+
+        public IEnumerable<Service> Children
+        {
+            get { return _children; }
+            protected set { _children = value.ToList(); }
+        }
+
 
 
         //
@@ -107,6 +119,13 @@ namespace Elysium
         internal void ConfigureInternal(IApplicationBuilder app)
         {
             Configure(app);
+        }
+
+        IServiceProvider IStartup.ConfigureServices(IServiceCollection services)
+        {
+            ConfigureServices(services);
+
+            return services.BuildServiceProvider();
         }
 
         //
