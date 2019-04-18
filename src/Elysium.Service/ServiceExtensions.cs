@@ -21,27 +21,23 @@ namespace Elysium
             return services;
         }
 
-        public static IApplicationBuilder UseElysiumService<TService>(this IApplicationBuilder app, Action<ServiceOptions> configureOptions) where TService : Service
+        public static IApplicationBuilder UseElysiumService<TService>(this IApplicationBuilder app, Service hostService, Action<ServiceOptions> configureOptions) where TService : Service
         {
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var service = scope.ServiceProvider.GetRequiredService<TService>();
-                var startupService = scope.ServiceProvider.GetRequiredService<IStartup>() as Service;
+                var service = app.ApplicationServices.GetRequiredService<TService>();
 
-                startupService._children.Add(service);
+                hostService._children.Add(service);
 
                 configureOptions?.Invoke(service.Options);
 
                 service.Options.Validate();
 
                 return app.ConfigureUseServiceFromHost(service);
-            }
             
         }
 
-        public static IApplicationBuilder UseElysiumService<TService>(this IApplicationBuilder app, string branch = null) where TService : Service
+        public static IApplicationBuilder UseElysiumService<TService>(this IApplicationBuilder app, Service hostService, string branch = null) where TService : Service
         {
-            return app.UseElysiumService<TService>((opt) =>
+            return app.UseElysiumService<TService>(hostService, (opt) =>
             {
                 opt.Branch = branch;
             });
