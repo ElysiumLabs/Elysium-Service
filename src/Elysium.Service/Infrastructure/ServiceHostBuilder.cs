@@ -29,14 +29,14 @@ namespace Elysium.Infrastructure
                ConfigureServices(s =>
                {
                    s.AddSingleton<IServer, FakeServer>();
-                   s.AddSingleton<IStartup>(service);
+                   //s.AddSingleton<IStartup>(service);
                }).
-               //ConfigureServices(servicesConfiguration).
+               ConfigureServices(servicesConfiguration).
                ConfigureAppConfiguration(s =>
                {
                    ConfigureAppConfiguration(app, s);
                }).
-               //UseStartup<EmptyStartup>().
+               UseStartup<EmptyStartup>().
                Build();
 
             var serviceProvider = webHost.Services;

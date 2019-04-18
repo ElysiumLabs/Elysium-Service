@@ -47,7 +47,7 @@ namespace TestService1
         public override void Configure(IApplicationBuilder app)
         {
 
-            app.UseElysiumService<Test2Service>("Test2");
+            app.UseElysiumService<Test2Service>(this, "Test2");
 
 
             app.UseSwagger();

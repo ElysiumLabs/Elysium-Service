@@ -42,7 +42,7 @@ namespace Host.Playground
         {
 
             app
-                .UseElysiumService<Test1Service>("Test1")
+                .UseElysiumService<Test1Service>(this, "Test1")
                 //.UseElysiumService<Test2Service>("Test2")
                 ;
 

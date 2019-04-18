@@ -18,7 +18,7 @@ namespace TestService3
 
         public override void Configure(IApplicationBuilder app)
         {
-            app.UseElysiumService<Test2Service>("test2");
+            app.UseElysiumService<Test2Service>(this, "test2");
 
             //app.UseMvcWithDefaultRoute();
 
