@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -30,16 +29,6 @@ namespace Elysium
             protected set { _children = value.ToList(); }
         }
 
-
-        //
-        [Obsolete("Use options instead", true)]
-        public string Name { get; set; }
-
-        [Obsolete("Use options instead", true)]
-        public string Application { get; set; }
-
-        [Obsolete("Use options instead", true)]
-        public string Version { get; set; }
 
         public ServiceOptions Options { get; set; }
 
@@ -135,93 +124,6 @@ namespace Elysium
 
 
 
-    }
-
-    public class ServiceOptionsOld
-    {
-        internal static ServiceOptionsOld GetDefaultServiceOptions()
-        {
-            var opt = new ServiceOptionsOld()
-            {
-            };
-            return opt;
-        }
-
-        public ServiceOptionsOld()
-        {
-        }
-
-        public string Branch { get; set; }
-
-        public Action<IServiceCollection> AdditionalServicesConfiguration { get; set; }
-
-        public Action<IApplicationBuilder> AdditionalAppBuilderConfiguration { get; set; }
-
-        public void Validate()
-        {
-            if (string.IsNullOrEmpty(Branch))
-            {
-                throw new ArgumentNullException("Branch is empty");
-            }
-
-
-        }
-    }
-
-    public class ServiceOptions : Dictionary<object, object>
-    {
-
-
-        public string Name
-        {
-            get { return this[nameof(Name)] as string; }
-            set { this[nameof(Name)] = value; }
-        }
-
-        public string Application
-        {
-            get { return this[nameof(Application)] as string; }
-            set { this[nameof(Application)] = value; }
-        }
-
-        public string Branch
-        {
-            get { return this[nameof(Branch)] as string; }
-            set { this[nameof(Branch)] = value; }
-        }
-
-        public string Version
-        {
-            get { return this[nameof(Version)] as string; }
-            set { this[nameof(Version)] = value; }
-        }
-
-        public static ServiceOptions CreateDefault(Service service)
-        {
-            var type = service.GetType();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
-
-            var opts =  new ServiceOptions()
-            {
-                Name = type.Name,
-                Version = fvi.FileVersion
-            };
-
-            opts.Branch = opts.Name;
-
-            if (opts.Name.EndsWith("Service", StringComparison.InvariantCultureIgnoreCase))
-            {
-                opts.Branch = opts.Branch.Replace("Service", "");
-            }
-
-            return opts;
-
-        }
-
-        public void Validate()
-        {
-            
-        }
     }
 
 
