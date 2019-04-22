@@ -13,12 +13,12 @@ namespace TestService3
         public override void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddElysiumService<Test2Service>();
+                .AddElysiumService<Test2Service>(this);
         }
 
         public override void Configure(IApplicationBuilder app)
         {
-            app.UseElysiumService<Test2Service>(this, "test2");
+            app.UseElysiumService<Test2Service>("test2");
 
             //app.UseMvcWithDefaultRoute();
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Reflection;
 
 namespace Elysium
 {
-    public abstract class Service : IStartup
+    public abstract class Service : IStartup, IDisposable
     {
 
         public abstract void ConfigureServices(IServiceCollection services);
@@ -20,6 +21,11 @@ namespace Elysium
         public abstract void Configure(IApplicationBuilder app);
 
 
+        internal void ConfigureParent(Service parent)
+        {
+            Parent = parent ?? throw new ArgumentNullException(nameof(parent));
+            Parent._children.Add(this);
+        }
 
         internal List<Service> _children = new List<Service>();
 
@@ -34,9 +40,12 @@ namespace Elysium
 
 
         public IConfiguration Configuration { get; set; }
-
         public IHostingEnvironment Environment { get; set; }
+        public ILogger<Service> Logger { get; }
 
+        public Service Parent { get; private set; }
+
+        public ServiceStatus Status { get; set; } = ServiceStatus.NotStarted;
 
 
         public Service(IHostingEnvironment environment) : this(environment, null)
@@ -47,10 +56,11 @@ namespace Elysium
         {
         }
 
-        public Service(IHostingEnvironment environment, IConfiguration configuration) : this()
+        public Service(IHostingEnvironment environment, IConfiguration configuration, ILogger<Service> logger = null) : this()
         {
             Environment = environment;
             Configuration = configuration;
+            Logger = logger;
         }
 
         public Service()
@@ -60,9 +70,19 @@ namespace Elysium
 
         internal void ConfigureServicesInternal(IServiceCollection services)
         {
-            ConfigureServices(services);
+            try
+            {
+                ConfigureServices(services);
 
-            ConfigureServiceParts(services);
+                ConfigureServiceParts(services);
+
+            }
+            catch (Exception)
+            {
+                Status = ServiceStatus.Error;
+                //throw;
+            }
+
         }
 
         private void ConfigureServiceParts(IServiceCollection services)
@@ -106,7 +126,21 @@ namespace Elysium
 
         internal void ConfigureInternal(IApplicationBuilder app)
         {
-            Configure(app);
+            Status = ServiceStatus.Starting;
+
+            try
+            {
+                Configure(app);
+
+                Status = ServiceStatus.Started;
+            }
+            catch (Exception)
+            {
+                Status = ServiceStatus.Error;
+                //throw;
+            }
+
+            
         }
 
         IServiceProvider IStartup.ConfigureServices(IServiceCollection services)
@@ -116,6 +150,17 @@ namespace Elysium
             return services.BuildServiceProvider();
         }
 
+        public void Dispose()
+        {
+            if (Parent != null)
+            {
+                if (Parent.Children.Contains(this))
+                {
+                    Parent._children.Remove(this);
+                }
+            }
+        }
+
         //
         //
         //
@@ -124,6 +169,14 @@ namespace Elysium
 
 
 
+    }
+
+    public enum ServiceStatus
+    {
+        NotStarted, 
+        Starting,
+        Started,
+        Error
     }
 
 

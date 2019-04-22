@@ -1,5 +1,6 @@
 ﻿using Elysium;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -28,7 +29,7 @@ namespace Host.Playground
             services.AddMvc();
 
             services
-                .AddElysiumService<Test1Service>()
+                .AddElysiumService<Test1Service>(this)
                 //.AddElysiumService<Test2Service>()
                 ;
 
@@ -42,7 +43,7 @@ namespace Host.Playground
         {
 
             app
-                .UseElysiumService<Test1Service>(this, "Test1")
+                .UseElysiumService<Test1Service>("Test1")
                 //.UseElysiumService<Test2Service>("Test2")
                 ;
 

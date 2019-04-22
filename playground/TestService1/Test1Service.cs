@@ -19,7 +19,7 @@ namespace TestService1
         {
             services.AddMvc();
 
-            services.AddElysiumService<Test2Service>();
+            services.AddElysiumService<Test2Service>(this);
 
             services.AddIdentityServer()
                 .AddInMemoryApiResources(Bla2())
@@ -32,6 +32,7 @@ namespace TestService1
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
+
         }
 
         private IEnumerable<ApiResource> Bla2()
@@ -46,8 +47,7 @@ namespace TestService1
 
         public override void Configure(IApplicationBuilder app)
         {
-
-            app.UseElysiumService<Test2Service>(this, "Test2");
+            app.UseElysiumService<Test2Service>("Test2");
 
 
             app.UseSwagger();
