@@ -30,7 +30,7 @@ namespace Elysium.Infrastructure
             var serviceapp = ServiceHostBuilder.BuildServiceInBranch(
                 service,
                 rootApp,
-                StringExtensions.SlashBranchName(service.Options.Branch),
+                StringExtensions.SlashBranchName(service.InternalOptions.Branch),
                 services =>
                 {
                     service.ConfigureServicesInternal(services);

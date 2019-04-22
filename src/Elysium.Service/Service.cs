@@ -36,7 +36,7 @@ namespace Elysium
         }
 
 
-        public ServiceOptions Options { get; set; }
+        public ServiceOptions InternalOptions { get; internal protected set; }
 
 
         public IConfiguration Configuration { get; set; }
@@ -65,7 +65,7 @@ namespace Elysium
 
         public Service()
         {
-            Options = ServiceOptions.CreateDefault(this);
+            InternalOptions = ServiceOptions.CreateDefault(this);
         }
 
         internal void ConfigureServicesInternal(IServiceCollection services)
@@ -80,7 +80,7 @@ namespace Elysium
             catch (Exception)
             {
                 Status = ServiceStatus.Error;
-                //throw;
+                throw; //future feature
             }
 
         }
@@ -137,7 +137,7 @@ namespace Elysium
             catch (Exception)
             {
                 Status = ServiceStatus.Error;
-                //throw;
+                throw; //future feature
             }
 
             

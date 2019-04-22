@@ -33,9 +33,9 @@ namespace Elysium
 
             var service = app.ApplicationServices.GetRequiredService<TService>();
 
-            configureOptions?.Invoke(service.Options);
+            configureOptions?.Invoke(service.InternalOptions);
 
-            service.Options.Validate();
+            service.InternalOptions.Validate();
 
             return app.ConfigureUseServiceFromHost(service);
         }

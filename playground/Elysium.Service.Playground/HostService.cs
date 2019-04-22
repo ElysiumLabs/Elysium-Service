@@ -18,9 +18,9 @@ namespace Host.Playground
     {
         public HostService()
         {
-            Options.Name = "Host";
-            Options.Version = "1.0.1";
-            Options.Application = "Playground";
+            InternalOptions.Name = "Host";
+            InternalOptions.Version = "1.0.1";
+            InternalOptions.Application = "Playground";
         }
 
         public override void ConfigureServices(IServiceCollection services)
