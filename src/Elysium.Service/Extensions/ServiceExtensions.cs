@@ -1,4 +1,5 @@
-﻿using Elysium.Infrastructure;
+﻿using Elysium.Extensions;
+using Elysium.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,18 +13,17 @@ namespace Elysium
     public static class ServiceExtensions
     {
 
-        public static IServiceCollection AddElysiumService<TService>(this IServiceCollection services, Service parent) where TService : Service
+        public static IServiceCollection AddElysiumService<TService>(this IServiceCollection services) where TService : Service
         {
             services.AddScoped((serviceProvider) =>
             {
+                var hostService = serviceProvider.GetElysiumHostService();
                 var service = ActivatorUtilities.CreateInstance<TService>(serviceProvider);
-
-                service.ConfigureParent(parent);
-
+                service.ConfigureParent(hostService); 
                 return service;
             });
 
-            services.ConfigureAddInService<TService>();
+            services.RemoveServiceAppPartsInHost<TService>();
 
             return services;
         }
@@ -33,18 +33,30 @@ namespace Elysium
 
             var service = app.ApplicationServices.GetRequiredService<TService>();
 
-            configureOptions?.Invoke(service.InternalOptions);
+            configureOptions?.Invoke(service.Options);
 
-            service.InternalOptions.Validate();
+            service.Options.Validate();
 
-            return app.ConfigureUseServiceFromHost(service);
+            try
+            {
+                return app.ConfigureUseServiceFromHost(service);
+            }
+            catch (Exception)
+            {
+                //Empty for StatusStartupFilterManagement
+            }
+
+            return app;
         }
 
         public static IApplicationBuilder UseElysiumService<TService>(this IApplicationBuilder app, string branch = null) where TService : Service
         {
             return app.UseElysiumService<TService>((opt) =>
             {
-                opt.Branch = branch;
+                if (!string.IsNullOrEmpty(branch))
+                {
+                    opt.Branch = branch;
+                }
             });
         }
 

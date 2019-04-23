@@ -15,7 +15,7 @@ namespace TestService2.Controllers
         [HttpGet("get")]
         public object Get([FromServices]IConfiguration configuration)
         {
-            return HttpContext.GetServiceChain().Select(x => x.InternalOptions.Name);
+            return HttpContext.GetServiceChain().Select(x => x.Options.Name);
             return configuration.AsEnumerable();
         }
 

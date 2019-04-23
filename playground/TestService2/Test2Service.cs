@@ -20,6 +20,7 @@ namespace TestService2
 
         public override void Configure(IApplicationBuilder app)
         {
+            throw new Exception("test");
             app.UseMvcWithDefaultRoute();
         }
     }
