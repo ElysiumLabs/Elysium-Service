@@ -15,8 +15,12 @@ using TestService2;
 
 namespace TestService1
 {
-    public class Test1Service : Test2Service
+    public class Test1Service : Service
     {
+        public Test1Service()
+        {
+
+        }
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();

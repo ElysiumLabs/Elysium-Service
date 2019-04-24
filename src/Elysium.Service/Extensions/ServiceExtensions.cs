@@ -15,7 +15,7 @@ namespace Elysium
 
         public static IServiceCollection AddElysiumService<TService>(this IServiceCollection services) where TService : Service
         {
-            services.AddScoped((serviceProvider) =>
+            services.AddSingleton((serviceProvider) =>
             {
                 var hostService = serviceProvider.GetElysiumHostService();
                 var service = ActivatorUtilities.CreateInstance<TService>(serviceProvider);
