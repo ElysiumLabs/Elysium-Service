@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,12 +14,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0">
+      <PrivateAssets>true</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Home\Views\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>

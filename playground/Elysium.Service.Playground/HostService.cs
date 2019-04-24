@@ -18,9 +18,9 @@ namespace Host.Playground
     {
         public HostService()
         {
-            InternalOptions.Name = "Host";
-            InternalOptions.Version = "1.0.1";
-            InternalOptions.Application = "Playground";
+            Options.Name = "Host";
+            Options.Version = "1.0.1";
+            Options.Application = "Playground";
         }
 
         public override void ConfigureServices(IServiceCollection services)
@@ -29,8 +29,8 @@ namespace Host.Playground
             services.AddMvc();
 
             services
-                .AddElysiumService<Test1Service>(this)
-                //.AddElysiumService<Test2Service>()
+                .AddElysiumService<Test1Service>()
+            //    //.AddElysiumService<Test2Service>()
                 ;
 
             services.AddSwaggerGen(c =>

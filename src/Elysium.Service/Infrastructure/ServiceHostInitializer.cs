@@ -12,13 +12,7 @@ namespace Elysium.Infrastructure
 {
     internal static class ServiceHostInitializer
     {
-        internal static IServiceCollection ConfigureAddInService<TService>(this IServiceCollection services) where TService : Service
-        {
-            services.TryRemoveServiceAppPartsInHost<TService>();
-
-            return services;
-        }
-
+      
 
         internal static IApplicationBuilder ConfigureUseServiceFromHost(
            this IApplicationBuilder rootApp,
@@ -30,15 +24,15 @@ namespace Elysium.Infrastructure
             var serviceapp = ServiceHostBuilder.BuildServiceInBranch(
                 service,
                 rootApp,
-                StringExtensions.SlashBranchName(service.InternalOptions.Branch),
+                StringExtensions.SlashBranchName(service.Options.Branch),
                 services =>
                 {
-                    service.ConfigureServicesInternal(services);
+                    service.ConfigureServicesForAddIn(services);
                     //hostServicesConfiguration?.Invoke(services);
                 },
                 appBuilder =>
                 {
-                    service.ConfigureInternal(appBuilder);
+                    service.ConfigureForAddIn(appBuilder);
                     //hostAppBuilderConfiguration?.Invoke(appBuilder);
                 });
 

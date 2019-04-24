@@ -13,7 +13,7 @@ namespace TestService3
         public override void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddElysiumService<Test2Service>(this);
+                .AddElysiumService<Test2Service>();
         }
 
         public override void Configure(IApplicationBuilder app)

@@ -8,6 +8,20 @@ using System.Text;
 
 namespace Elysium.Extensions
 {
+
+    public static class ElysiumExtensions
+    {
+        public static TService GetElysiumHostService<TService>(this IServiceProvider serviceProvider) where TService : Service
+        {
+            return serviceProvider.GetServices<IService>().LastOrDefault() as TService;
+        }
+
+        public static Service GetElysiumHostService(this IServiceProvider serviceProvider)
+        {
+            return serviceProvider.GetElysiumHostService<Service>();
+        }
+    }
+
     internal static class ServiceCollectionExtensions
     {
         public static T GetServiceFromCollection<T>(this IServiceCollection services)
@@ -37,7 +51,7 @@ namespace Elysium.Extensions
             return manager;
         }
 
-        internal static void TryRemoveServiceAppPartsInHost<T>(this IServiceCollection services)
+        internal static void RemoveServiceAppPartsInHost<T>(this IServiceCollection services)
         {
             var partsManager = GetApplicationPartManager(services);
 

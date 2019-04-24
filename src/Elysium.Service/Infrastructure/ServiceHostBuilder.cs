@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,6 @@ namespace Elysium.Infrastructure
                ConfigureServices(s =>
                {
                    s.AddSingleton<IServer, FakeServer>();
-                   //s.AddSingleton<IStartup>(service);
                }).
                ConfigureServices(servicesConfiguration).
                ConfigureAppConfiguration(s =>
@@ -62,23 +62,32 @@ namespace Elysium.Infrastructure
                 }
             });
 
+            var startupFilters = serviceProvider.GetService<IEnumerable<IStartupFilter>>();
+            foreach (var filter in startupFilters.Reverse())
+            {
+                appBuilderConfiguration = filter.Configure(appBuilderConfiguration);
+            }
+
             appBuilderConfiguration(branchBuilder);
 
             var branchDelegate = branchBuilder.Build();
 
             return app.Map(path, builder =>
             {
-                builder.UseMiddleware<ServiceMiddleware>(service);
+                //builder.UseMiddleware<ServiceMiddleware>();
 
                 builder.Use(async (context, next) =>
                 {
                     await branchDelegate(context);
                 });
+
+                
             });
 
         }
 
 
+    
         private class EmptyStartup
         {
             public void ConfigureServices(IServiceCollection services) { }
