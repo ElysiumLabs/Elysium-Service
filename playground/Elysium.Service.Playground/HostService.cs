@@ -29,7 +29,7 @@ namespace Host.Playground
             services.AddMvc();
 
             services
-                .AddElysiumService<Test1Service>(this)
+                .AddElysiumService<Test1Service>()
             //    //.AddElysiumService<Test2Service>()
                 ;
 

@@ -4,9 +4,9 @@ namespace Elysium.StartPage
 {
     public class StartPageOptions
     {
-        public string ApplicationName { get; set; } = "Service";
+        public string ApplicationName { get; set; } = "Elysium";
 
-        public string ServiceName { get; set; } = "";
+        public string ServiceName { get; set; } = "Service";
 
         public PathString Path { get; set; } = "/";
     }

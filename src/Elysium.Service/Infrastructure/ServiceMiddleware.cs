@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace Elysium.Infrastructure
 {
+    [Obsolete("Not used anymore", true)]
+
     public class ServiceMiddleware
     {
         public static string ElysiumServicesChainKey = "ElysiumServicesChain";
@@ -16,11 +18,11 @@ namespace Elysium.Infrastructure
         private readonly ILogger<ServiceMiddleware> _logger;
         private readonly Service _service;
 
-        public ServiceMiddleware(RequestDelegate next, ILogger<ServiceMiddleware> logger, Service service)
+        public ServiceMiddleware(RequestDelegate next, ILogger<ServiceMiddleware> logger, IService service)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _service = service as Service ?? throw new ArgumentNullException(nameof(service));
         }
 
         public Task InvokeAsync(HttpContext context)
@@ -36,8 +38,10 @@ namespace Elysium.Infrastructure
     
     }
 
+    [Obsolete("Not used anymore", true)]
     public static class ServiceMiddlewareExternsions
     {
+        [Obsolete("Not used anymore", true)]
         public static IEnumerable<Service> GetServiceChain(this HttpContext httpContext)
         {
             var servicesChain = httpContext.Items[ServiceMiddleware.ElysiumServicesChainKey] as List<Service>;
@@ -51,7 +55,7 @@ namespace Elysium.Infrastructure
 
         }
 
-
+        [Obsolete("Not used anymore", true)]
         internal static void TryAddServiceToChain<TService>(this HttpContext httpContext, TService service) where TService : Service
         {
             try

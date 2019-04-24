@@ -74,7 +74,7 @@ namespace Elysium.Infrastructure
 
             return app.Map(path, builder =>
             {
-                builder.UseMiddleware<ServiceMiddleware>(service);
+                //builder.UseMiddleware<ServiceMiddleware>();
 
                 builder.Use(async (context, next) =>
                 {

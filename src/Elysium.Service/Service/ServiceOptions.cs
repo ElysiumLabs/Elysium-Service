@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elysium.StartPage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,9 @@ namespace Elysium
 
         public bool ThrowExceptionOnFailure { get; set; } = false;
 
+        public bool UseDefaultStartupPage { get; set; } = true;
+
+
         public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 
 
@@ -24,12 +28,12 @@ namespace Elysium
                 Name = type.Name,
             };
 
-            if (opts.Name.EndsWith("Service"))
+            if (opts.Branch?.EndsWith("Service") == true)
             {
                 opts.Branch = opts.Branch.Replace("Service", "");
             }
 
-            opts.Branch = opts.Branch.Trim();
+            opts.Branch = opts.Branch?.Trim();
 
             return opts;
 
@@ -37,6 +41,8 @@ namespace Elysium
 
         public virtual bool Validate()
         {
+            Branch = Branch?.ToLower();
+
             return
                 (
                 !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Branch)
@@ -44,6 +50,7 @@ namespace Elysium
                 ;
         }
 
+        
     }
 
     public class ServiceInfo
@@ -53,5 +60,18 @@ namespace Elysium
         public string Application { get; set; }
 
         public string Version { get; set; }
+    }
+
+    public static class ServiceOptionsExtensions
+    {
+        public static string GetBranch(this ServiceOptions serviceOptions)
+        {
+            if (string.IsNullOrEmpty(serviceOptions.Branch))
+            {
+                return "/";
+            }
+
+            return serviceOptions.Branch.AsServiceSegment();
+        }
     }
 }

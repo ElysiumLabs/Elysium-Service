@@ -1,5 +1,6 @@
 ﻿using Elysium.Extensions;
 using Elysium.Infrastructure;
+using Elysium.Stats;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -43,7 +44,12 @@ namespace Elysium
         internal void ConfigureInternal(IApplicationBuilder app)
         {
             Configure(app);
-            app.UseStartPage(Options);
+
+            app.UseMiddleware<ServiceStatusMiddleware>();
+
+            if (Options.UseDefaultStartupPage) { app.UseStartPage(Options); }
+            
+            
         }
     }
 }

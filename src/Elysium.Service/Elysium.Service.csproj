@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Home\Views\" />
-    <Folder Include="NewFolder\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 
