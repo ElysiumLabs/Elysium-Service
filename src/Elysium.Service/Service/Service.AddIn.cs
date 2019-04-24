@@ -45,7 +45,7 @@ namespace Elysium
         {
             Configure(app);
 
-            app.UseMiddleware<ServiceStatusMiddleware>();
+            app.UseMiddleware<StatsMiddleware>();
 
             if (Options.UseDefaultStartupPage) { app.UseStartPage(Options); }
             

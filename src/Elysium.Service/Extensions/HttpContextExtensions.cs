@@ -27,6 +27,8 @@ namespace Elysium.Extensions
             return context.ExecuteResultAsync(result);
         }
 
+       
+
         public static Task ExecuteResultAsync<TResult>(this HttpContext context, TResult result)
             where TResult : IActionResult
         {
