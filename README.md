@@ -23,56 +23,53 @@ Idea ilustration
 Like any other aspnetcore, a startup structure.
 
 ```csharp
-    public class MyCompanyService1 : Service
+public class MyCompanyService1 : Service
+{
+    //Your constructor in your way.
+    //This contructor is a ready configuration access template
+    public MyCompanyCoursesService(IHostingEnvironment environment, IConfiguration configuration, ILogger<Service> logger = null) : base(environment, configuration, logger)
     {
-        //Your constructor in your way.
-        //This contructor is a ready configuration access template
-        public MyCompanyCoursesService(IHostingEnvironment environment, IConfiguration configuration, ILogger<Service> logger = null) : base(environment, configuration, logger)
-        {
 
-        }
-
-
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc();
-
-            //...
-        }
-
-        public override void Configure(IApplicationBuilder app)
-        {
-            //...
-
-            app.UseMvc();
-        }
     }
+
+
+    public override void ConfigureServices(IServiceCollection services)
+    {
+        services.AddMvc();
+
+        //...
+    }
+
+    public override void Configure(IApplicationBuilder app)
+    {
+        //...
+
+        app.UseMvc();
+    }
+}
 ```
 
 and in the host builder just use this service in UseStartup, like this:
 
 ```csharp
-    public class Program
+public class Program
+{
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<MyCompanyService1>();
+        CreateWebHostBuilder(args).Build().Run();
     }
+
+    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<MyCompanyService1>();
+}
 ```
 
 Just it. Run and you have a ~~beautiful~~ default start page (customizable):
 
 ![Startup page](https://i.imgur.com/MiMNIak.png)
 
-
-
 Join us @ 
-
 <a href="https://discord.gg/6qFrxRQ">
 <img src="https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png" width="250">
 </a>
