@@ -37,7 +37,7 @@ namespace Elysium.StartPage
                 serviceName = _options.ApplicationName + " - " + serviceName;
             }
 
-            s = s.Replace("{{ServiceName}}", _options.ServiceName);
+            s = s.Replace("{{ServiceName}}", serviceName);
 
             var servicesString = "<table style='width: 100 % '>";
 
