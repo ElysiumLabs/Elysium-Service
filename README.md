@@ -22,6 +22,7 @@ Idea ilustration
 
 Like any other aspnetcore, a startup structure.
 
+```csharp
     public class MyCompanyService1 : Service
     {
         //Your constructor in your way.
@@ -46,9 +47,11 @@ Like any other aspnetcore, a startup structure.
             app.UseMvc();
         }
     }
+```
 
 and in the host builder just use this service in UseStartup, like this:
 
+```csharp
     public class Program
     {
         public static void Main(string[] args)
@@ -60,6 +63,7 @@ and in the host builder just use this service in UseStartup, like this:
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<MyCompanyService1>();
     }
+```
 
 Just it. Run and you have a ~~beautiful~~ default start page (customizable):
 
